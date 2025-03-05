@@ -1,4 +1,4 @@
-package io.github.carolinewtuftin.parser
+package io.github.carolinewtuftin.service
 
 class ExcelParserService {
     fun parseExcel(): String {

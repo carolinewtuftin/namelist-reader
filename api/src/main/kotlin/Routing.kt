@@ -1,6 +1,6 @@
 package io.github.carolinewtuftin
 
-import io.github.carolinewtuftin.parser.ExcelParserService
+import io.github.carolinewtuftin.service.ExcelParserService
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
