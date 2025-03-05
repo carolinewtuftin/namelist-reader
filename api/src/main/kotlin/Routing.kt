@@ -1,13 +1,17 @@
 package io.github.carolinewtuftin
 
+import io.github.carolinewtuftin.parser.ExcelParserService
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
+
+    val excelParserService = ExcelParserService()
+
     routing {
         get("/") {
-            call.respondText("Hello World!")
+            call.respondText(excelParserService.parseExcel())
         }
     }
 }
