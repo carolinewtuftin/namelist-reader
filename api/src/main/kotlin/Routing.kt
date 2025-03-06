@@ -12,22 +12,18 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
-    install(ContentNegotiation) {
-        json()
-    }
+    install(ContentNegotiation) { json() }
 
-    val FILE_PARSERS: List<NameListFileParser> = listOf(
-        ExcelFileParser()
-    )
+    val FILE_PARSERS: List<NameListFileParser> = listOf(ExcelFileParser())
 
     val extractor = NamelistExtractor()
-
+    val openAIService = OpenAiService()
 
     routing {
         post("/extract") {
             val mimeType = call.request.headers["Content-Type"]
-            val fileParser = FILE_PARSERS
-                .firstOrNull { x -> x.getSupportedMimeTypes().contains(mimeType) }
+            val fileParser =
+                    FILE_PARSERS.firstOrNull { x -> x.getSupportedMimeTypes().contains(mimeType) }
 
             if (fileParser == null) {
                 call.respond(HttpStatusCode.BadRequest, "Unsupported mime type: $mimeType")
@@ -38,13 +34,15 @@ fun Application.configureRouting() {
                 val extractorInput = fileParser.parseFile(bytes)
                 val persons = extractor.extractPersons(extractorInput)
 
-                call.respond(Response(
-                    extractedPersons = persons,
-                    inputString = extractorInput
-                ))
+                call.respond(Response(extractedPersons = persons, inputString = extractorInput))
             }
         }
     }
 
+    routing {
+        get("/openai") {
+            val response = openAIService.getResponse("E ordet av ravi gi rating")
+            call.respond(message = response)
+        }
+    }
 }
-

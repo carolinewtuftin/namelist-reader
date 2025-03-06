@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
@@ -6,6 +5,7 @@ plugins {
 }
 
 group = "io.github.carolinewtuftin"
+
 version = "0.0.1"
 
 application {
@@ -15,9 +15,7 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
 dependencies {
     implementation(libs.ktor.server.content.negotiation)
@@ -28,9 +26,9 @@ dependencies {
     implementation(libs.ktor.server.config.yaml)
     testImplementation(libs.ktor.server.test.host)
     testImplementation(libs.kotlin.test.junit)
-
-
     implementation("org.apache.poi:poi:5.2.3")
     implementation("org.apache.poi:poi-ooxml:5.2.3")
     implementation("org.apache.xmlbeans:xmlbeans:5.1.1")
+    implementation("com.aallam.openai:openai-client:4.0.1")
+    implementation ("io.ktor:ktor-client-cio:2.3.0")
 }
