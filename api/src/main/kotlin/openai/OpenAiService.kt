@@ -6,42 +6,39 @@ import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.chat.ChatRole
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
+import io.github.carolinewtuftin.extractor.Person
 import io.ktor.client.*
-import java.io.BufferedReader
-import java.io.File
 
-val INSTRUCTIONS = "# Instructions" +
-                   "## General" +
-                   "You are a namelist extractor start each respons with \"Heihei Bendik og Caroline 🤠\""
+const val INSTRUCTIONS =
+        "Return a list of people as a json array shown in the example, based on the input from the following string. Allow only 11 numbers in ssn, firstname and lastname is allowed special characters and -. Do not return any other text. Example for return: { \"ssn\": \"12345678900\", \"firstName\": \"Ola\", \"lastName\": \"Nordmann\" }, If no people are found, return an empty array"
 
 class OpenAiService {
     suspend fun setupAPI(): OpenAI {
         val openai =
                 OpenAI(
                         token =
-                                TOKEN
+                                "TOKEN"
                 )
 
         return openai
     }
 
-    public suspend fun getResponse(prompt: String): String {
+    public suspend fun getResponse(prompt: String): List<Person> {
         val openai = setupAPI()
-
-
 
         val chatCompletionRequest =
                 ChatCompletionRequest(
                         model = ModelId("gpt-3.5-turbo"),
                         messages =
                                 listOf(
-                                        ChatMessage(role = ChatRole.System, content =INSTRUCTIONS
-                                                    ),
+                                        ChatMessage(role = ChatRole.System, content = INSTRUCTIONS),
+                                        ChatMessage(role = ChatRole.System, content = prompt),
 
                                 )
                 )
 
         val completion: ChatCompletion = openai.chatCompletion(chatCompletionRequest)
-        return completion.choices.last().message.content ?: ""
+
+        return completion.choices.last().message.content as List<Person>
     }
 }

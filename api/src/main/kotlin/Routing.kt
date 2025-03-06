@@ -32,17 +32,10 @@ fun Application.configureRouting() {
                 val bytes = call.receive<ByteArray>()
 
                 val extractorInput = fileParser.parseFile(bytes)
-                val persons = extractor.extractPersons(extractorInput)
+                val persons = openAIService.getResponse(extractorInput)
 
                 call.respond(Response(extractedPersons = persons, inputString = extractorInput))
             }
-        }
-    }
-
-    routing {
-        get("/openai") {
-            val response = openAIService.getResponse("E ordet av ravi gi rating")
-            call.respond(message = response)
         }
     }
 }
