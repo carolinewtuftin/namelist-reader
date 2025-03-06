@@ -31,4 +31,5 @@ dependencies {
     implementation("org.apache.xmlbeans:xmlbeans:5.1.1")
     implementation("com.aallam.openai:openai-client:4.0.1")
     implementation ("io.ktor:ktor-client-cio:2.3.0")
+    implementation("io.ktor:ktor-server-cors:2.1.10")
 }
