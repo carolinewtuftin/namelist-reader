@@ -10,7 +10,7 @@ import io.github.carolinewtuftin.extractor.Person
 import io.ktor.client.*
 
 const val INSTRUCTIONS =
-        "Return a list of people as a json array shown in the example, based on the input from the following string. Allow only 11 numbers in ssn, firstname and lastname is allowed special characters and -. Do not return any other text. Example for return: { \"ssn\": \"12345678900\", \"firstName\": \"Ola\", \"lastName\": \"Nordmann\" }, If no people are found, return an empty array"
+        "Return a list of people as a json array shown in the example, based on the input from the following string. Allow only 11 numbers in ssn, firstname and lastname is allowed special characters and -. Do not return any other text. Example for return: { \"ssn\": \"12345678900\", \"firstName\": \"Ola\", \"lastName\": \"Nordmann\" }, If no people are found, return an empty array. RAW CODE ONLY, DO NOT WRAP IT IN MARKDOWN"
 
 class OpenAiService {
     suspend fun setupAPI(): OpenAI {
