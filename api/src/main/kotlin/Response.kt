@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Response(
     val inputString: String,
-    val extractedPersons: List<Person>,
+    val extractedPersons: String,
 )

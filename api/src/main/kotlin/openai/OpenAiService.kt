@@ -23,7 +23,7 @@ class OpenAiService {
         return openai
     }
 
-    public suspend fun getResponse(prompt: String): List<Person> {
+    public suspend fun getResponse(prompt: String): String{
         val openai = setupAPI()
 
         val chatCompletionRequest =
@@ -39,6 +39,6 @@ class OpenAiService {
 
         val completion: ChatCompletion = openai.chatCompletion(chatCompletionRequest)
 
-        return completion.choices.last().message.content as List<Person>
+        return completion.choices.last().message.content?: ""
     }
 }
