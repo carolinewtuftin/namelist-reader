@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import hourglass from "../assets/hourglass.gif";
 
 const FileUploader = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [responseBody, setResponseBody] = useState<object | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -11,7 +14,7 @@ const FileUploader = () => {
 
   const handleUpload = async () => {
     if (file) {
-      console.log("Uploading file...");
+      setIsUploading(true);
 
       const formData = new FormData();
       formData.append("file", file);
@@ -23,9 +26,12 @@ const FileUploader = () => {
           body: file,
         }).then(async (res) => {
           const response = await res.json();
+          setResponseBody(response);
           console.log({ response });
+          setIsUploading(false);
         });
       } catch (error) {
+        setIsUploading(false);
         console.log(error);
       }
     }
@@ -36,20 +42,15 @@ const FileUploader = () => {
       <div className="input-group">
         <input id="file" type="file" onChange={handleFileChange} />
       </div>
-      {file && (
-        <section>
-          File details:
-          <ul>
-            <li>Name: {file.name}</li>
-            <li>Type: {file.type}</li>
-            <li>Size: {file.size} bytes</li>
-          </ul>
-        </section>
-      )}
+      {responseBody && <section>TBD: Namelist goes here</section>}
 
       {file && (
         <button onClick={handleUpload} className="submit">
-          Upload
+          {isUploading ? (
+            <img width="36" height="36" src={hourglass} alt="hourglass" />
+          ) : (
+            "Upload"
+          )}
         </button>
       )}
     </>
