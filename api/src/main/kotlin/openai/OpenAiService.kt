@@ -7,7 +7,7 @@ import com.aallam.openai.api.chat.ChatRole
 import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import io.github.carolinewtuftin.extractor.Person
-import io.ktor.client.*
+import kotlinx.serialization.json.Json
 
 const val INSTRUCTIONS =
         "Return a list of people as a json array shown in the example, based on the input from the following string. " +
@@ -28,7 +28,7 @@ class OpenAiService {
         return openai
     }
 
-    public suspend fun getResponse(prompt: String): String{
+    public suspend fun getResponse(prompt: String): List<Person> {
         val openai = setupAPI()
 
         val chatCompletionRequest =
@@ -43,7 +43,8 @@ class OpenAiService {
                 )
 
         val completion: ChatCompletion = openai.chatCompletion(chatCompletionRequest)
+        val response: List<Person> = Json.decodeFromString(completion.choices.last().message.content ?: "")
 
-        return completion.choices.last().message.content?: ""
+        return response;
     }
 }

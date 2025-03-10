@@ -4,7 +4,6 @@ import logo from "./assets/welcome.gif";
 import FileUploader from "./components/FileUploader";
 
 function App() {
-  console.log("eeee");
   return (
     <>
       <head>
