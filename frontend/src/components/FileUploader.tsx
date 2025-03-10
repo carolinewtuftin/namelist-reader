@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import hourglass from "../assets/hourglass.gif";
+import { ExtractResponse } from "../model/ExtractResponse";
 
-const FileUploader = () => {
+const FileUploader: React.FC<{
+  setPersonList: React.Dispatch<
+    React.SetStateAction<ExtractResponse["extractedPersons"]>
+  >;
+}> = (props) => {
   const [file, setFile] = useState<File | null>(null);
-  const [responseBody, setResponseBody] = useState<object | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,8 +29,8 @@ const FileUploader = () => {
           method: "POST",
           body: file,
         }).then(async (res) => {
-          const response = await res.json();
-          setResponseBody(response);
+          const response = (await res.json()) as ExtractResponse;
+          props.setPersonList(response.extractedPersons);
           console.log({ response });
           setIsUploading(false);
         });
@@ -42,7 +46,6 @@ const FileUploader = () => {
       <div className="input-group">
         <input id="file" type="file" onChange={handleFileChange} />
       </div>
-      {responseBody && <section>TBD: Namelist goes here</section>}
 
       {file && (
         <button onClick={handleUpload} className="submit">
