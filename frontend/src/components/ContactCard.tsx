@@ -1,11 +1,12 @@
 import type React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface ContactCardProps {
   ssn: string;
   firstName: string;
   lastName: string;
   index: number;
+  isNewest?: boolean;
 }
 
 const ContactCard: React.FC<ContactCardProps> = ({
@@ -13,8 +14,10 @@ const ContactCard: React.FC<ContactCardProps> = ({
   firstName,
   lastName,
   index,
+  isNewest = false,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isVisible) return;
@@ -26,8 +29,20 @@ const ContactCard: React.FC<ContactCardProps> = ({
     return () => clearTimeout(timer);
   }, [index, isVisible]);
 
+  useEffect(() => {
+    if (isNewest && cardRef.current && isVisible) {
+      setTimeout(() => {
+        cardRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 100);
+    }
+  }, [isNewest, isVisible]);
+
   return (
     <div
+      ref={cardRef}
       className={`contact-card ${isVisible ? "card-visible" : "card-hidden"}`}
     >
       <div className="card-header">

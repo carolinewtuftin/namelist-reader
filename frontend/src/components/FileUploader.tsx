@@ -4,8 +4,8 @@ import hourglass from "../assets/hourglass.gif";
 import type { ExtractResponse } from "../model/ExtractResponse";
 
 const FileUploader: React.FC<{
-  setPersonList: React.Dispatch<
-    React.SetStateAction<ExtractResponse["extractedPersons"]>
+  setPersonBatches: React.Dispatch<
+    React.SetStateAction<ExtractResponse["extractedPersons"][]>
   >;
 }> = (props) => {
   const [file, setFile] = useState<File | null>(null);
@@ -31,9 +31,9 @@ const FileUploader: React.FC<{
           body: file,
         }).then(async (res) => {
           const response = (await res.json()) as ExtractResponse;
-          props.setPersonList((currentList) => [
-            ...currentList,
-            ...response.extractedPersons,
+          props.setPersonBatches((currentBatches) => [
+            ...currentBatches,
+            response.extractedPersons,
           ]);
           console.log({ response });
           setIsUploading(false);
@@ -51,22 +51,15 @@ const FileUploader: React.FC<{
         <input id="file" type="file" onChange={handleFileChange} />
       </div>
 
-      {file && (
-        <div className="button-container">
-          <button onClick={handleUpload} className="submit">
-            {isUploading ? (
-              <img
-                width="36"
-                height="36"
-                src={hourglass || "/placeholder.svg"}
-                alt="hourglass"
-              />
-            ) : (
-              "Upload"
-            )}
-          </button>
-        </div>
-      )}
+      <div className="button-container">
+        <button onClick={handleUpload} className="submit">
+          {isUploading ? (
+            <img width="16" height="16" src={hourglass} alt="hourglass" />
+          ) : (
+            "Upload"
+          )}
+        </button>
+      </div>
     </div>
   );
 };
