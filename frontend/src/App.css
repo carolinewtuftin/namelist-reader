@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: "Times New Roman", serif;
     background-color: #e5e5e5;
@@ -144,6 +148,8 @@ li {
     align-content: flex-start;
     max-height: calc(100vh - 200px);
     scroll-behavior: smooth;
+    max-width: 1100px;
+    width: 100%;
 }
 
 .contact-card {
@@ -236,4 +242,48 @@ li {
     .contact-card {
         width: 100%;
     }
+}
+
+
+.stars-background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  background-color: blue;
+  border-radius: 50%;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.marquee-container {
+  background-color: black;
+  color: #ffff33;
+  font-weight: bold;
+  text-align: center;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border: 2px solid #ffff33;
+  max-width: 500px;
+  width: 100%;
+  position: fixed;
+  top: 1rem;
+  width: 500px;
+  left: 2rem;
+}
+
+.marquee-text {
+    translate: -200px;
+    white-space: nowrap;
 }
